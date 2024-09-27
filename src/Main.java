@@ -3,16 +3,17 @@
 public class Main {
     public static void main(String[] args) {
         LemurConfig config = new LemurConfig.Builder().
-                                numberOfIterations(5).
-                                numberOfDimensions(3).
-                                numberOfSolutions(4).
-                                lowerBound(-10).
-                                upperBound(10).
+                                numberOfIterations(150).
+                                numberOfDimensions(2).
+                                numberOfSolutions(30).
+                                lowerBound(-10000).
+                                upperBound(10000).
                                 highRiskRate(0.6).
                                 lowRiskRate(0.4).
                                 build();
 
-        Lemur.initializePopulation(config);
+        config.optimize();
+
 
     }
 }

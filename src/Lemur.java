@@ -2,42 +2,48 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Lemur {
-
-    Double fitness;
+     Double fitness;
      double[] valueOfDimensions;
-
-
+     Lemur bestNearestLemur;
+    static Lemur globalBestLemur;
     Random rnd=new Random();
-    public Lemur(LemurConfig config){
-        valueOfDimensions=new double[config.getNumberOfDimensions()];
+
+    public Lemur(int numberOfDimensions, double upperBound, double lowerBound){
+        valueOfDimensions=new double[numberOfDimensions];
         for(int i =0;i<valueOfDimensions.length;i++){
-            valueOfDimensions[i]= rnd.nextDouble() *
-                    (config.getUpperBound() - config.getLowerBound())
-                    + config.getLowerBound();
+            valueOfDimensions[i]= rnd.nextDouble()*
+                                 (upperBound-lowerBound)+lowerBound;
         }
     }
-    public static void initializePopulation(LemurConfig config){
-        ArrayList<Lemur> list = new ArrayList<>();
-        for(int i =0;i<config.getNumberOfSolutions();i++){
-           list.add(new Lemur(config));
 
-        }
-        for (Lemur x:list){
-            for (int i=0;i<x.valueOfDimensions.length;i++){
-                System.out.print(x.valueOfDimensions[i]+" ");
-
-            }
-            System.out.println(x.calculateFitessValue());
-
-        }
-    }
-    public double calculateFitessValue(){
+    public void calculateFitessValue(){
         double value=0;
         for(Double x: this.valueOfDimensions){
             value+=x;
         }
-        return value;
+        fitness=value;
     }
+    public void findBestNearestLemur(Lemur[] lemurs,int index){
+        Lemur bestNearestLemur=lemurs[index];
+        boolean isFounded = false;
+        int i = index+1;
+        int j = index-1;
+        while (i < lemurs.length || j >= 0) {
+            if (i < lemurs.length && lemurs[i].fitness > bestNearestLemur.fitness) {
+                bestNearestLemur = lemurs[i];
+                isFounded = true;
+            }
+            if (j >= 0 && lemurs[j].fitness > bestNearestLemur.fitness) {
+                bestNearestLemur = lemurs[j];
+                isFounded = true;
+            }
+            if (isFounded) {
+                break;
+            }
+            i++;
+            j--;
+        }
 
-
+        this.bestNearestLemur = bestNearestLemur;
+    }
 }
