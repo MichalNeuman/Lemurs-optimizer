@@ -118,6 +118,12 @@ public class LemurConfig {
                                                     (tab[j].valueOfDimensions[k]-Lemur.globalBestLemur.valueOfDimensions[k])
                                                     *(random-0.5)*2;
                     }
+                    // Clamping: Upewniamy się, że lemur nie wyjdzie poza granice
+                    if(tab[j].valueOfDimensions[k]>upperBound){
+                        tab[j].valueOfDimensions[k]=upperBound;
+                    }if(tab[j].valueOfDimensions[k]<lowerBound){
+                        tab[j].valueOfDimensions[k]=lowerBound;
+                    }
                 }
             }
             for(Lemur x : tab){
