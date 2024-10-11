@@ -5,18 +5,18 @@ public class LemurConfig {
     private final int numberOfIterations;
     private final int numberOfDimensions;
     private final int numberOfSolutions;
-    private  final int lowerBound;
-    private  final int upperBound;
+    private  final double lowerBound;
+    private  final double upperBound;
     private final double lowRiskRate;
     private final double highRiskRate;
-    Random rnd=new Random();
+    private Random rnd=new Random();
 
     public static class Builder{
         private int numberOfIterations=0;
         private int numberOfDimensions=0;
         private int numberOfSolutions=0;
-        private int lowerBound=0;
-        private int upperBound=0;
+        private double lowerBound=0;
+        private double upperBound=0;
         private double lowRiskRate=0;
         private double highRiskRate=0;
 
@@ -29,11 +29,11 @@ public class LemurConfig {
             return this;
         }
 
-        public Builder lowerBound(int lowerBound){
+        public Builder lowerBound(double lowerBound){
             this.lowerBound=lowerBound;
             return this;
         }
-        public Builder upperBound(int upperBound){
+        public Builder upperBound(double upperBound){
             this.upperBound=upperBound;
             return this;
         }
@@ -66,10 +66,10 @@ public class LemurConfig {
         this.highRiskRate=builder.highRiskRate;
 
     }
-    public  int getLowerBound(){
+    public  double getLowerBound(){
         return lowerBound;
     }
-    public  int getUpperBound(){
+    public  double getUpperBound(){
         return upperBound;
     }
     public int getNumberOfDimensions(){return numberOfDimensions;}
@@ -88,9 +88,9 @@ public class LemurConfig {
     }
     public void findGlobalBestLemur(Lemur[] tab){
         Lemur best=tab[0];
-        for(int i =1;i< tab.length;i++){
-            if(tab[i].fitness>best.fitness){
-                best=tab[i];
+        for(Lemur x : tab){
+            if(x.fitness<best.fitness){
+                best=x;
             }
         }
         Lemur.globalBestLemur=best;
@@ -100,8 +100,10 @@ public class LemurConfig {
         Lemur[] tab= this.initializePopulation();
 
         for(int i =0;i<numberOfIterations;i++){
+            System.out.println();
+            System.out.print("Iteracja nr: " + i);
             for(int j =0;j<numberOfSolutions;j++){
-                tab[j].calculateFitessValue();
+                tab[j].calculateFitnessValue();
             }
             double fRR = calculateFRR(i);
             findGlobalBestLemur(tab);
@@ -133,15 +135,10 @@ public class LemurConfig {
                 }
                 System.out.print(x.fitness + " " + x.bestNearestLemur.fitness);
             }
-        }
-        for(Lemur x : tab){
             System.out.println();
-            for (double y: x.valueOfDimensions){
-                System.out.print(y+" ");
-            }
-            System.out.print(x.fitness + " " + x.bestNearestLemur.fitness);
+            System.out.println("Warstosc najlepszego lemura: "+Lemur.globalBestLemur.fitness );
+
         }
-        System.out.println();
-        System.out.print("najlepszy lemur: " + Lemur.globalBestLemur.fitness);
+
     }
 }
