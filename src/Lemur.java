@@ -45,8 +45,6 @@ public class Lemur {
                 i++;
                 j--;
             }
-
-
         this.bestNearestLemur = bestNearestLemur;
     }
 }

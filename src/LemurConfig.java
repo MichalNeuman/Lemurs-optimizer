@@ -101,7 +101,7 @@ public class LemurConfig {
 
         for(int i =0;i<numberOfIterations;i++){
             System.out.println();
-            System.out.print("Iteracja nr: " + i);
+            System.out.println("Iteracja nr: " + i);
             for(int j =0;j<numberOfSolutions;j++){
                 tab[j].calculateFitnessValue();
             }
@@ -128,15 +128,18 @@ public class LemurConfig {
                     }
                 }
             }
-            for(Lemur x : tab){
-                System.out.println();
-                for (double y: x.valueOfDimensions){
-                    System.out.print(y+" ");
+            for (Lemur x : tab) {
+                // Wyświetlanie wartości wymiarów w jednej linii
+                for (double y : x.valueOfDimensions) {
+                    System.out.printf("%15.20f ", y);
                 }
-                System.out.print(x.fitness + " " + x.bestNearestLemur.fitness);
+
+                // Wyświetlanie wartości fitness i fitness najbliższego lemura
+                System.out.printf("%15.20f %15.20f%n", x.fitness, x.bestNearestLemur.fitness);
             }
+
             System.out.println();
-            System.out.println("Warstosc najlepszego lemura: "+Lemur.globalBestLemur.fitness );
+            System.out.printf("Wartość najlepszego lemura: %.20f%n", Lemur.globalBestLemur.fitness);
 
         }
 
